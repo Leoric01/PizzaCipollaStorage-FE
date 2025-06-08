@@ -8,8 +8,9 @@ import {
   ListItemText,
 } from '@mui/material';
 import { FC, useState } from 'react';
-import { ChevronLeft, ChevronRight, Inbox, Mail } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight, Inbox } from '@mui/icons-material';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
+import { useNavigate } from 'react-router';
 
 interface MenuProps {
   open?: boolean;
@@ -73,6 +74,41 @@ export const OpenCloseIcon = styled(IconButton)`
 
 export const Sidebar: FC = () => {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+
+  const BUTTONS = [
+    {
+      title: 'Dashboard',
+      action: () => navigate('/state'),
+      icon: <Inbox />,
+    },
+    {
+      title: 'Prodejní položky',
+      action: () => navigate('/items'),
+      icon: <Inbox />,
+    },
+    {
+      title: 'Stav zásob',
+      action: () => navigate('/state'),
+      icon: <Inbox />,
+    },
+    {
+      title: 'Spotřeba',
+      action: () => navigate('/usage'),
+      icon: <Inbox />,
+    },
+
+    {
+      title: 'Inventura',
+      action: () => navigate('/state'),
+      icon: <Inbox />,
+    },
+    {
+      title: 'Ingredience',
+      action: () => navigate('/state'),
+      icon: <Inbox />,
+    },
+  ];
 
   return (
     <Menu open={open}>
@@ -86,11 +122,11 @@ export const Sidebar: FC = () => {
           {!open ? <ChevronRight /> : <ChevronLeft />}
         </OpenCloseIcon>
       </Box>
-
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+        {BUTTONS.map(({ title, action, icon }, index) => (
+          <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
+              onClick={action}
               sx={[
                 {
                   minHeight: 48,
@@ -120,10 +156,10 @@ export const Sidebar: FC = () => {
                       },
                 ]}
               >
-                {index % 2 === 0 ? <Inbox /> : <Mail />}
+                {icon}
               </ListItemIcon>
               <ListItemText
-                primary={text}
+                primary={title}
                 sx={[
                   open
                     ? {
